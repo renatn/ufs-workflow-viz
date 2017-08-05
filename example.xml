@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://ufs.sbrf.ru/platform/flow-definition"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://ufs.sbrf.ru/platform/flow-definition http://ufs.sbrf.ru/platform/flow-definition.xsd"
+      start-state="start">
+
+    <!-- Подтверждение картой, подтверждает клиент -->
+    <state name="start" on-enter="confirmClientCardHandler#start">
+        <state-transition name="upos" to="displayTextOnPOS" />
+        <state-transition name="tablet" to="checkDetails" />
+    </state>
+
+    <state name="checkDetails"
+           on-enter="confirmClientCardHandler#onEnterToCheckDetailsState"
+           on-error="confirmClientCardHandler#stopOnError"
+    >
+        <event name="editOperation" handler="confirmClientCardHandler#onClientDeclineOperationDetails"/>
+        <event name="editOperationByTablet" handler="confirmClientCardHandler#onClientEditOperation"/>
+
+        <event name="next" handler="confirmClientCardHandler#next"/>
+
+        <event name="greenButtonPressed" handler="confirmClientCardHandler#next"/>
+        <event name="redButtonPressed" handler="confirmClientCardHandler#onClientDeclineOperationDetails"/>
+
+        <event name="cancel" handler="confirmClientCardHandler#setCancel"/>
+        <event name="closeSession" handler="confirmClientCardHandler#onOperatorCloseSession"/>
+
+        <state-transition name="next" to="insertCard" />
+        <state-transition name="editWithTablet" to="editWithTablet" />
+    </state>
+
+    <state name="editWithTablet"
+           on-enter="confirmClientCardHandler#onEnterEditWithTabletState"
+           on-error="confirmClientCardHandler#stopOnError"
+    >
+        <event name="edit" handler="confirmClientCardHandler#onClientDeclineOperationDetails"/>
+        <event name="return" handler="confirmClientCardHandler#returnFromEditOperationWithTablet"/>
+
+        <state-transition name="cancel" to="clientCancel" />
+        <state-transition name="returnToDetails" to="checkDetails"/>
+    </state>
+
+    <state name="displayTextOnPOS"
+           on-enter="confirmClientCardHandler#onEnterDisplayTextOnPOSState"
+           on-error="confirmClientCardHandler#stopOnError"
+    >
+        <event name="cancel" handler="confirmClientCardHandler#onOperatorCancelConfirmation"/>
+        <event name="closeSession" handler="confirmClientCardHandler#onOperatorCloseSession"/>
+
+        <event name="greenButtonPressed" handler="confirmClientCardHandler#onClientConfirmOperationDetails"/>
+        <event name="redButtonPressed" handler="confirmClientCardHandler#onClientDeclineOperationDetails"/>
+
+        <event name="confirmHandFromBfo" handler="confirmClientCardHandler#onTransitToManualSign"/>
+        <event name="confirmBySMS" handler="confirmClientCardHandler#onTransitToSMSSign"/>
+        <event name="abortBfo" handler="confirmClientCardHandler#onClientHaventCard"/>
+
+        <state-transition name="next" to="insertCard"/>
+        <state-transition name="cancel" to="clientCancel"/>
+        <state-transition name="exit" to="exit"/>
+    </state>
+
+    <state name="insertCard"
+           on-enter="confirmClientCardHandler#onEnterInsertCardState"
+           on-error="confirmClientCardHandler#stopOnError"
+    >
+        <event name="next" handler="confirmClientCardHandler#next"/>
+
+        <event name="cancel" handler="confirmationWorkflowHandler#onOperatorCancelConfirmation"/>
+        <event name="closeSession" handler="confirmClientCardHandler#onOperatorCloseSession"/>
+
+        <event name="confirmHandFromBfo" handler="confirmClientCardHandler#onTransitToManualSign"/>
+        <event name="confirmBySMS" handler="confirmClientCardHandler#onTransitToSMSSign"/>
+
+        <state-transition name="next" to="enterPinCode"/>
+        <state-transition name="exit" to="exit"/>
+        <state-transition name="cancel" to="clientCancel"/>
+    </state>
+
+    <state name="enterPinCode"
+           on-enter="confirmClientCardHandler#onEnterEnterPinCodeState"
+           on-error="confirmClientCardHandler#stopOnError"
+    >
+        <event name="greenButtonPressed" handler="confirmClientCardHandler#onClientEnterPinCodeSuccessfully"/>
+        <event name="redButtonPressed" handler="confirmClientCardHandler#onClientDeclineOperationDetails"/>
+
+        <event name="cancel" handler="confirmationWorkflowHandler#onOperatorCancelConfirmation"/>
+        <event name="closeSession" handler="confirmationWorkflowHandler#closeSession"/>
+
+        <event name="confirmHandFromBfo" handler="confirmClientCardHandler#onTransitToManualSign"/>
+        <event name="confirmBySMS" handler="confirmClientCardHandler#onTransitToSMSSign"/>
+        <event name="abortBfo" handler="confirmClientCardHandler#onClientHaventCard"/>
+
+        <state-transition name="next" to="exit"/>
+        <state-transition name="exit" to="exit"/>
+        <state-transition name="cancel" to="clientCancel"/>
+    </state>
+
+    <state name="clientCancel"
+           on-enter="confirmationWorkflowHandler#stopOnClientCancel"
+           on-error="confirmClientCardHandler#stopOnError">
+
+        <event name="cancel" handler="confirmationWorkflowHandler#onOperatorCancelConfirmation"/>
+
+        <event name="confirm" handler="clientCancelWorkflowHandler#confirm"/>
+        <event name="editOperation" handler="clientCancelWorkflowHandler#edit"/>
+        <event name="closeSession" handler="confirmationWorkflowHandler#closeSession"/>
+
+        <state-transition name="confirmed" to="exit"/>
+        <state-transition name="exit" to="exit"/>
+    </state>
+
+    <state name="exit" on-enter="confirmClientCardHandler#exit">
+        <state-transition name="next" to="end"/>
+    </state>
+
+
+
+</flow>

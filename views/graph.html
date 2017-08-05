@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>UFS Workflow visualization</title>
+	<script src="viz-lite.js"></script>
+</head>
+<body>
+	<h1>UFS Workflow visualization</h1>
+	<div id="output"></div>
+	<script>
+		var dotString = '{{{ dotString }}}';
+		var result = Viz(dotString);
+		var parser = new DOMParser();
+     	var svg = parser.parseFromString(result, "image/svg+xml").documentElement; 
+     	svg.id = "svg_output";
+
+		var graphEl = document.getElementById('output');
+        graphEl.appendChild(svg);
+	</script>
+</body>
+</html>
