@@ -1,3 +1,5 @@
+'use strict';
+
 const sax = require('sax');
 const fs = require('fs');
 const express = require('express')
@@ -18,9 +20,10 @@ const handleStartTag = node => {
   if (node.name === 'state') {
  	const { name } = node.attributes;
 	state = name;
-	dot = dot + ' ' + name + '; ';
+	dot = dot + ' ' + name + ' [shape=box,style=filled,color="palegreen2"]; ';
   } else if (node.name === 'state-transition') {
  	const { name, to } = node.attributes;
+    dot = dot + ' edge [color=gray]; ';
   	dot = dot + state + ' -> ' + to + ' [label=' + name + ']; ';
   }
 };
@@ -60,6 +63,8 @@ app.set('views', __dirname + '/views');
 
 app.post('/render', handleUpload);
 
-app.listen(3000, function () {
-  console.log('UFS Workflow Viz app listening on port 3000!')
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`UFS Workflow Viz app listening on port ${PORT}!`);
+  console.log('Press Ctrl+C to quit.');
 })
