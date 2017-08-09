@@ -23,9 +23,17 @@
 	<h1>UFS Workflow visualization</h1>
 
 	<form action="/render" method="POST" enctype="multipart/form-data">
-	  <input type="file" name="xml" accept=".xml"> 
+	  <input type="file" name="xml" accept=".xml">
 	  <input type="submit" value="Render">
 	</form>
 
+	<!-- Google Analytics -->
+	<script>
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-78468993-2', 'auto');
+	ga('send', 'pageview');
+	</script>
+	<script async src='https://www.google-analytics.com/analytics.js'></script>
+	<!-- End Google Analytics -->
 </body>
 </html>
