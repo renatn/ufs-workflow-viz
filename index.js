@@ -25,6 +25,11 @@ const handleStartTag = node => {
  	const { name, to } = node.attributes;
     dot = dot + ' edge [color=gray]; ';
   	dot = dot + state + ' -> ' + to + ' [label=' + name + ']; ';
+  } else if (node.name === 'flow-transition') {
+ 	const { name, subflow } = node.attributes;
+	dot = dot + ' ' + subflow + ' [shape=box,style=filled,color="yellow"]; '; 	
+    dot = dot + ' edge [color=blue]; ';
+  	dot = dot + state + ' -> ' + subflow + ' [label=' + name + ']; ';
   }
 };
 
