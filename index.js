@@ -8,11 +8,10 @@ const fileUpload = require('express-fileupload');
 const stream = require('stream');
 const mustacheExpress = require('mustache-express');
 
-let dot = 'digraph G { ';
+let dot;
 let state;
 
-
-const handleErrorParse =  e => {
+const handleErrorParse = e => {
   console.error("error!", e)
 };
 
