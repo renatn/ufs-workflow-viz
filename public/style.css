@@ -1,0 +1,112 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica,sans-serif;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;    
+}
+
+h1 {
+    padding: 20px;
+    margin: 0;
+    background-color: #00C292;
+    color: #ffffff;
+}
+
+#svg_output_1 {
+  display: block;
+  position: absolute;
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+}
+
+main {
+  display: flex;
+  flex: 1 0 auto; 
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  padding: 20px;
+}
+
+footer {
+  color: #ffffff;
+  padding: 0.5em;
+  background-color: #2F4156;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.toolbar {
+  padding: 0.5em;
+  background-color: #03A9F3;
+  margin-bottom: 1em;
+}
+
+
+.btn {
+    display: hidden;  
+    border: none;    
+    font-family: inherit;
+    font-size: 1.25em;
+    cursor: pointer;
+    padding: 0.8em;
+    display: inline-block;
+    margin: 0 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    outline: none;
+    position: relative;
+    transition: all 0.3s;
+    color: #fff;
+    background-color: #0E72D8; 
+}
+
+.btn:focus,
+.btn:hover {
+    background-color: #FD805A;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: #0E72D8;
+    display: inline-block;
+    padding: 0.8em;
+    transition: all 0.3s;
+
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #FD805A;
+}
+
+.inputfile + label {
+  cursor: pointer; /* "hand" cursor */
+}
+
+

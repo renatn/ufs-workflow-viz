@@ -1,37 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>UFS Workflow visualization</title>
-	<script src="viz-lite.js"></script>
-	<style type="text/css">
-		html, body {
-			margin: 0;
-			padding: 0;
-			font-family: Helvetica,sans-serif;
-		}
-		h1 {
-			padding: 20px;
-			margin: 0;
-			background-color: #318428;
-			color: #ffffff;
-		}
-		form {
-			padding: 20px;
-		}
-	</style>	
+  <title>UFS Workflow visualization</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="viz-lite.js"></script>
 </head>
 <body>
-	<h1>UFS Workflow visualization</h1>
-	<div id="output"></div>
-	<script>
-		var dotString = '{{{ dotString }}}';
-		var result = Viz(dotString);
-		var parser = new DOMParser();
-     	var svg = parser.parseFromString(result, "image/svg+xml").documentElement; 
-     	svg.id = "svg_output";
+  <header>
+    <h1>UFS Workflow visualization</h1> 
+    <div class="toolbar">
+      <button id="saveBtn">Save</button>
+    </div>     
+  </header>
 
-		var graphEl = document.getElementById('output');
-        graphEl.appendChild(svg);
-	</script>
+  <main>
+    <div id="output"></div>
+  </main>
+
+  <footer>
+    <p>2017 &copy; Renat Nasyrov</p>
+  </footer>
+
+  <script>
+      var dotString = '{{{ dotString }}}';
+      var result = Viz(dotString);
+      var parser = new DOMParser();
+      var svg = parser.parseFromString(result, "image/svg+xml").documentElement; 
+      svg.id = "svg_output";
+
+      var graphEl = document.getElementById('output');
+      graphEl.appendChild(svg);
+
+      var saveBtn = document.getElementById('saveBtn');
+      saveBtn.addEventListener('click', function() {
+        Viz.svgXmlToPngBase64(result, 1, function(err, base64) {
+          var link = document.createElement("a");
+          link.setAttribute("href", 'data:image/png;base64, '+base64);
+          link.setAttribute("download", "workflow.png");
+          link.click();          
+        });
+      });
+  </script>
+    <!-- Google Analytics -->
+  <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-78468993-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  <!-- End Google Analytics -->
 </body>
 </html>

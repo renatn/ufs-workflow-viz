@@ -1,39 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>UFS Workflow visualization</title>
-	<style type="text/css">
-		html, body {
-			margin: 0;
-			padding: 0;
-			font-family: Helvetica,sans-serif;
-		}
-		h1 {
-			padding: 20px;
-			margin: 0;
-			background-color: #318428;
-			color: #ffffff;
-		}
-		form {
-			padding: 20px;
-		}
-	</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  <title>UFS Workflow visualization</title>
+  <link rel="stylesheet" type="text/css" href="style.css">  
 </head>
 <body>
-	<h1>UFS Workflow visualization</h1>
+  <header>
+    <h1>UFS Workflow visualization</h1>      
+  </header>
 
-	<form action="/render" method="POST" enctype="multipart/form-data">
-	  <input type="file" name="xml" accept=".xml">
-	  <input type="submit" value="Render">
-	</form>
+  <main>
+    <form action="/render" method="POST"  id="upload" enctype="multipart/form-data">
+      <input type="file" name="xml" id="file" class="inputfile" accept=".xml" />
+      <label for="file"><span>Choose a file...</span></label>
+      <!-- <input type="submit" class="btn" value="Render"> -->
+    </form>      
+  </main>
 
-	<!-- Google Analytics -->
-	<script>
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-78468993-2', 'auto');
-	ga('send', 'pageview');
-	</script>
-	<script async src='https://www.google-analytics.com/analytics.js'></script>
-	<!-- End Google Analytics -->
+  <footer>
+    <p>2017 &copy; Renat Nasyrov</p>
+  </footer>
+
+
+  <script>
+    var form = document.getElementById('upload');
+    var inputs = document.querySelectorAll( '.inputfile' );
+    Array.prototype.forEach.call( inputs, function( input ) {
+      var label  = input.nextElementSibling,
+          labelVal = label.innerHTML;
+
+      input.addEventListener( 'change', function (e) {
+        var fileName = e.target.value.split( '\\' ).pop();
+        if ( fileName ) {
+          label.querySelector( 'span' ).innerHTML = fileName;
+          setTimeout(function() {
+            console.log('upload');
+            form.submit();
+          }, 1000);
+        }
+        else {
+          label.innerHTML = labelVal;
+        }
+
+      });
+    });        
+  </script>
+
+  <!-- Google Analytics -->
+  <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-78468993-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  <!-- End Google Analytics -->
+
 </body>
 </html>
