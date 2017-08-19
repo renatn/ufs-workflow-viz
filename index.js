@@ -7,6 +7,7 @@ const app = express()
 const fileUpload = require('express-fileupload');
 const stream = require('stream');
 const mustacheExpress = require('mustache-express');
+const Viz = require('viz.js');
 
 let dot;
 let state;
@@ -35,7 +36,9 @@ const handleStartTag = node => {
 const endParseHandler = (req, res) => e => {
 	dot = dot + '}';
 	// res.status(200).send(dot);
-	res.render('graph.html', { dotString: dot });
+
+  const svg = Viz(dot);
+	res.render('graph.html', { svgGraph: svg });
 }
 
 const handleUpload = (req, res) => {
@@ -66,6 +69,8 @@ app.set('view engine', 'mustache');
 app.set('views', __dirname + '/views');
 
 app.post('/render', handleUpload);
+
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

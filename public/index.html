@@ -42,7 +42,7 @@
       var fileName = e.target.value.split('\\').pop();
       if (fileName) {
         label.querySelector('span').innerHTML = fileName;
-        setTimeout(function() { form.submit(); }, 2500);
+        setTimeout(function() { form.submit(); }, 1000);
         document.querySelector('.progress-button').classList.add('loading');
       }
       else {

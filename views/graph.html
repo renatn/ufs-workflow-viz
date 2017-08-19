@@ -4,7 +4,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
   <title>UFS Workflow visualization</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
-  <script src="viz-lite.js"></script>
 </head>
 <body>
   <header>
@@ -15,7 +14,9 @@
   </header>
 
   <main>
-    <div id="output"></div>
+    <div id="output">
+      {{{ svgGraph }}}
+    </div>
   </main>
 
   <footer>
@@ -23,15 +24,6 @@
   </footer>
 
   <script>
-      var dotString = '{{{ dotString }}}';
-      var result = Viz(dotString);
-      var parser = new DOMParser();
-      var svg = parser.parseFromString(result, "image/svg+xml").documentElement; 
-      svg.id = "svg_output";
-
-      var graphEl = document.getElementById('output');
-      graphEl.appendChild(svg);
-
       var saveBtn = document.getElementById('saveBtn');
       saveBtn.addEventListener('click', function() {
         Viz.svgXmlToPngBase64(result, 1, function(err, base64) {
