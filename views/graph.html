@@ -7,10 +7,10 @@
 </head>
 <body>
   <header>
-    <h1>UFS Workflow visualization</h1> 
+    <h1>UFS Workflow visualization</h1>
     <div class="toolbar">
       <button id="saveBtn">Save</button>
-    </div>     
+    </div>
   </header>
 
   <main>
@@ -26,12 +26,23 @@
   <script>
       var saveBtn = document.getElementById('saveBtn');
       saveBtn.addEventListener('click', function() {
-        Viz.svgXmlToPngBase64(result, 1, function(err, base64) {
-          var link = document.createElement("a");
-          link.setAttribute("href", 'data:image/png;base64, '+base64);
+        var svg  = document.querySelector('#output svg'),
+            xml  = new XMLSerializer().serializeToString(svg),
+            data = "data:image/svg+xml;base64," + btoa(xml),
+            img = document.createElement('img');
+        img.setAttribute('src', data);
+        img.onload = function() {
+          var canvas = document.createElement('canvas'),
+              ctx = canvas.getContext('2d');
+          canvas.width = svg.clientWidth;
+          canvas.height = svg.clientHeight;
+          ctx.drawImage(img, 0, 0);
+          var base64 = canvas.toDataURL('image/png');
+          var link = document.createElement('a');
+          link.setAttribute("href", base64);
           link.setAttribute("download", "workflow.png");
-          link.click();          
-        });
+          link.click();
+        };
       });
   </script>
     <!-- Google Analytics -->

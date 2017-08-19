@@ -30,23 +30,30 @@
     <p>2017 &copy; Renat Nasyrov</p>
   </footer>
 
-
   <script>
     var form = document.getElementById('upload');
     var input = document.querySelector('.inputfile');
-    var label = document.querySelector('.inputfile-label');
-    labelVal = label.innerHTML;
-
 
     input.addEventListener('change', function (e) {
       var fileName = e.target.value.split('\\').pop();
       if (fileName) {
-        label.querySelector('span').innerHTML = fileName;
-        setTimeout(function() { form.submit(); }, 1000);
+        setTimeout(function() {
+          var data = new FormData();
+          data.append('xml', input.files[0]);
+          fetch('/render', {
+            method: 'POST',
+            body: data
+          }).then(function (response) {
+            if (response.ok) {
+              return response.text();
+            }
+          }).then(function (text) {
+            history.pushState({}, "render", "render.html");
+            document.write(text);
+            document.close();
+          });
+        }, 500);
         document.querySelector('.progress-button').classList.add('loading');
-      }
-      else {
-        label.innerHTML = labelVal;
       }
     });
   </script>
