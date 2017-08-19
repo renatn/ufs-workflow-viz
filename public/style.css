@@ -1,3 +1,7 @@
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.clearfix:before, .clearfix:after { content: ''; display: table; }
+.clearfix:after { clear: both; }
+
 html, body {
     margin: 0;
     padding: 0;
@@ -6,6 +10,7 @@ html, body {
     display: flex;
     flex-direction: column;
     height: 100%;    
+    background-color: #2F4156;
 }
 
 h1 {
@@ -31,11 +36,9 @@ main {
   flex: 1 0 auto; 
   justify-content: center;
   align-items: center;
+  background-color: #fff;
 }
 
-form {
-  padding: 20px;
-}
 
 footer {
   color: #ffffff;
@@ -54,31 +57,6 @@ p {
   margin-bottom: 1em;
 }
 
-
-.btn {
-    display: hidden;  
-    border: none;    
-    font-family: inherit;
-    font-size: 1.25em;
-    cursor: pointer;
-    padding: 0.8em;
-    display: inline-block;
-    margin: 0 0.5em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
-    outline: none;
-    position: relative;
-    transition: all 0.3s;
-    color: #fff;
-    background-color: #0E72D8; 
-}
-
-.btn:focus,
-.btn:hover {
-    background-color: #FD805A;
-}
-
 .inputfile {
   width: 0.1px;
   height: 0.1px;
@@ -88,25 +66,75 @@ p {
   z-index: -1;
 }
 
-
-.inputfile + label {
-    font-size: 1.25em;
-    font-weight: 700;
-    color: white;
-    background-color: #0E72D8;
-    display: inline-block;
-    padding: 0.8em;
-    transition: all 0.3s;
-
-}
-
-.inputfile:focus + label,
-.inputfile + label:hover {
-    background-color: #FD805A;
-}
-
-.inputfile + label {
+.inputfile-label {
   cursor: pointer; /* "hand" cursor */
 }
 
+.progress-button {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  transform: translateY(-50%);
+}
 
+.progress-button label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0;
+  width: 250px;
+  height: 70px;
+  border: 2px solid #FD805A;
+  border-radius: 40px;
+  background: transparent;
+  color: #FD805A;
+  letter-spacing: 1px;
+  font-size: 18px;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+}
+
+.progress-button label:hover {
+  background-color: #FD805A;
+  color: #fff;
+}
+
+.loading.progress-button label {
+  width: 70px; /* make a circle */
+  border-width: 5px;
+  border-color: #ddd;
+  background-color: transparent;
+  color: #fff;
+}
+
+/*The text should fade out quickly when we start the progress animation…*/
+.loading.progress-button span {
+  transition: opacity 0.15s;
+}
+
+/*…by setting the opacity to 0:*/
+.loading.progress-button span {
+  opacity: 0; /* keep it hidden in all states */
+}
+
+/* Transition for when returning to default state */
+.progress-button label span {
+   transition: opacity 0.3s 0.1s;
+}
+
+.ufs-spinner {
+  display: none;  
+  opacity: 0.1; 
+  position: absolute;
+  top: 0;
+  left: 50%;    
+  transform: translateX(-50%);
+  transition: opacity 1s;
+}
+
+.loading.progress-button .ufs-spinner {
+  display: block; 
+  opacity: 1; 
+}

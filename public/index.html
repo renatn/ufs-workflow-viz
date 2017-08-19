@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-
   <title>UFS Workflow visualization</title>
   <link rel="stylesheet" type="text/css" href="style.css">  
 </head>
@@ -14,8 +15,14 @@
   <main>
     <form action="/render" method="POST"  id="upload" enctype="multipart/form-data">
       <input type="file" name="xml" id="file" class="inputfile" accept=".xml" />
-      <label for="file"><span>Choose a file...</span></label>
-      <!-- <input type="submit" class="btn" value="Render"> -->
+      <div id="progress-button" class="progress-button">
+        <label for="file" class="inputfile-label" disabled>
+          <span>Choose a file...</span>
+        </label>
+        <div class="ufs-spinner">
+          <img src="ufs-spinner.svg" />
+        </div>
+      </div>  
     </form>      
   </main>
 
@@ -26,26 +33,22 @@
 
   <script>
     var form = document.getElementById('upload');
-    var inputs = document.querySelectorAll( '.inputfile' );
-    Array.prototype.forEach.call( inputs, function( input ) {
-      var label  = input.nextElementSibling,
-          labelVal = label.innerHTML;
+    var input = document.querySelector('.inputfile');
+    var label = document.querySelector('.inputfile-label');
+    labelVal = label.innerHTML;
 
-      input.addEventListener( 'change', function (e) {
-        var fileName = e.target.value.split( '\\' ).pop();
-        if ( fileName ) {
-          label.querySelector( 'span' ).innerHTML = fileName;
-          setTimeout(function() {
-            console.log('upload');
-            form.submit();
-          }, 1000);
-        }
-        else {
-          label.innerHTML = labelVal;
-        }
 
-      });
-    });        
+    input.addEventListener('change', function (e) {
+      var fileName = e.target.value.split('\\').pop();
+      if (fileName) {
+        label.querySelector('span').innerHTML = fileName;
+        // setTimeout(function() { form.submit(); }, 2500);
+        document.querySelector('.progress-button').classList.add('loading');        
+      }
+      else {
+        label.innerHTML = labelVal;
+      }
+    });
   </script>
 
   <!-- Google Analytics -->
@@ -56,6 +59,5 @@
     </script>
     <script async src='https://www.google-analytics.com/analytics.js'></script>
   <!-- End Google Analytics -->
-
 </body>
 </html>
