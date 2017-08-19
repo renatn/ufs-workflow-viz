@@ -5,11 +5,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
   <title>UFS Workflow visualization</title>
-  <link rel="stylesheet" type="text/css" href="style.css">  
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
   <header>
-    <h1>UFS Workflow visualization</h1>      
+    <h1>UFS Workflow visualization</h1>
   </header>
 
   <main>
@@ -22,8 +22,8 @@
         <div class="ufs-spinner">
           <img src="ufs-spinner.svg" />
         </div>
-      </div>  
-    </form>      
+      </div>
+    </form>
   </main>
 
   <footer>
@@ -42,8 +42,8 @@
       var fileName = e.target.value.split('\\').pop();
       if (fileName) {
         label.querySelector('span').innerHTML = fileName;
-        // setTimeout(function() { form.submit(); }, 2500);
-        document.querySelector('.progress-button').classList.add('loading');        
+        setTimeout(function() { form.submit(); }, 2500);
+        document.querySelector('.progress-button').classList.add('loading');
       }
       else {
         label.innerHTML = labelVal;
