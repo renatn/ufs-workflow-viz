@@ -14,7 +14,7 @@
     "node": ">=8.2.0"
   },
   "dependencies": {
-    "express": "^4.15.3",
+    "express": "^4.16.4",
     "express-fileupload": "^0.1.4",
     "mustache-express": "^1.2.5",
     "sax": "^1.2.4",
